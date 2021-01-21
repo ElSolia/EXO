@@ -95,12 +95,159 @@ void callback(char* topic, byte* payload, unsigned int length) {
   memcpy(p, payload, length);
   p[length] = NULL;
   String message(p);
-                                                  /**********     CHILD_EX = [4,5]
-                                                                  SPEED=[1,2,3] 
-                                                                  STAND_P = [6,7]
-                                                                  SET_P = 
+                                                  /**********     CHILD_EX = [0.0,1.0]
+                                                                  SPEED=[2.0,3.0,4.0] 
+                                                                  STAND_P = [5.0,6.0]
+                                                                  SET_P = [7.0,8.0 ]
+                                                                  STEP_BACKWORD= [9.0,10.0]
+                                                                  STEP_fORWORD = [11.0,12.0]
+                                                                  MOVE_SEPERATE = [13.0,14.0]
+                                                                  
                                                   
                                                   *********/
+
+    switch(message){
+      case "0.0" : 
+      break;
+
+      case "1.0":
+       break; 
+
+      case "2.0":
+      break; 
+
+      case "3.0":
+      break;
+
+      case "4.0":
+      break;
+
+      case "5.0":
+      break;
+
+      case "6.0":
+      break;
+
+      case "7.0":
+      break;
+
+      case "8.0":
+      break;
+
+      case "9.0":
+      break;
+
+      case "10.0":
+      break;
+
+      case "11.0":
+      break;
+
+      case "12.0":
+      break;
+
+      case "13.0":
+      break;
+
+      case "14.0":
+      break;
+
+
+
+      
+             /**************************************************** LINKS angle ******************************************************/
+                                                                /*LOWER_LEFT =[ -1.0 : 91.0 ]  STEP=20 { -1.0 , 19.0 , 39.0 , 59.0 , 79.0 , 91.0 }
+                                                                  LOWER_RIGHT =[ -2.0 : 92.0 ] STEP=20 { -2.0 , 18.0 , 38.0 , 58.0 , 78.0 , 92.0 }
+                                                                  UPPER_LEFT =[ -35.0 : 85.0 ] STEP=25 { -35.0 , -10.0 , 15.0 , 40.0 , 65.0 , 85.0 }
+                                                                  LOWER_LEFT=[ -34.0 : 86.0 ]  STEP=25 { -34.0 , -9.0 , 16.0 , 41.0 , 66.0 , 86.0 }*/
+      
+      //LOWER_LEFT
+              
+      case "-1.0":
+      break;
+       
+      case "19.0":
+      break;
+
+      case "39.0":
+      break;
+      
+      case "59.0":
+      break;
+
+      case "79.0":
+      break;
+
+      case "91.0":
+      break;
+
+
+      //LOWER_RIGHT
+              
+      case "-2.0":
+      break;
+       
+      case "18.0":
+      break;
+
+      case "38.0":
+      break;
+      
+      case "58.0":
+      break;
+
+      case "78.0":
+      break;
+
+      case "92.0":
+      break;
+
+      //UPPER_LEFT
+              
+      case "-35.0":
+      break;
+       
+      case "-10.0":
+      break;
+
+      case "15.0":
+      break;
+      
+      case "40.0":
+      break;
+
+      case "65.0":
+      break;
+
+      case "85.0":
+      break;
+
+      //UPPER_RIGHT
+              
+      case "-34.0":
+      break;
+       
+      case "-9.0":
+      break;
+
+      case "16.0":
+      break;
+      
+      case "41.0":
+      break;
+
+      case "66.0":
+      break;
+
+      case "86.0":
+      break;
+
+
+                                               
+            
+      
+      }                                              
+ /*
   if (message == "0.0") {
     Serial.println("NULL");
 
@@ -123,6 +270,7 @@ Serial.println("set position is off");
    else if(message == "5.0") {
 Serial.println("set position is on");
   }
+  */
   Serial.write(payload, length);
   Serial.println();
 }

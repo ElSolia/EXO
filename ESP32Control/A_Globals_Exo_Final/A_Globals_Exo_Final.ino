@@ -45,21 +45,37 @@ typedef enum              // enum to levelization the speed  // the analogWrite(
   MEDIUM_SPEED=2,     // MEDIUM speed indicate the half of the max speed
   HIGH_SPEED=3          // HIGH speed indicate the max speed
   }MOTOR_SPEED;
-// encoser function prototype
+
+  
+// encoder function prototype
 void Encoder_Init (Motor_ID encodername,char pinnumber1,char pinnumber2);
-void Encoder_Angle_Update (Motor_ID encodername);
+/*void Encoder_Angle_Update (Motor_ID encodername);*/
+void IRAM_ATTR ENCODER_LU_ISR(void);
+void IRAM_ATTR ENCODER_LD_ISR(void);
+void IRAM_ATTR ENCODER_RU_ISR(void);
+void IRAM_ATTR ENCODER_LU_ISR(void);
+
+
 // Motor function prototype
 void Motor_Init (Motor_ID motorname, char IN1_Pinnumber , char IN2_Pinnumber , char ENA_Pinnumber);
 void Motor_Forward(MOTOR_SPEED Speed ,Motor_ID motorname);
 void Motor_Backward(MOTOR_SPEED Speed ,Motor_ID motorname);
 void Motor_Brake(Motor_ID motorname);
 char move_motor_to( Motor_ID motorname , int desired_angle, MOTOR_SPEED Speed);
+
+
+
+
 // limit_switch function prototype
 void Limit_Sw_Init ( Motor_ID limitname ,char pinnumber);
-void LIMIT_RD_ISR();
-void LIMIT_RU_ISR();
-void LIMIT_LD_ISR();
-void LIMIT_LU_ISR();
+void IRAM_ATTR LIMIT_RD_ISR();
+void IRAM_ATTR LIMIT_RU_ISR();
+void IRAM_ATTR LIMIT_LD_ISR();
+void IRAM_ATTR LIMIT_LU_ISR();
+
+
+
+
 // Motor function prototype
 void Stand_Position (MOTOR_SPEED Speed);
 void Step_Forward (MOTOR_SPEED Speed);
@@ -71,10 +87,9 @@ char move_motors_to( Motor_ID motorname1 , int desired_angle1,
                      Motor_ID motorname3 , int desired_angle3,
                      Motor_ID motorname4 , int desired_angle4,
                      MOTOR_SPEED Speed);
-
+void move_motor_To_Test(Motor_ID motorname,int desired_angle, MOTOR_SPEED Speed );
 void Direction_Detect(int desired_angle,Motor_ID motorname );                     
 int Backlash_eliminator(int desired_angle , Motor_ID motorname);
-char move_motor_to_edited( Motor_ID motorname , int desired_angle, MOTOR_SPEED Speed);
+/*char move_motor_to_edited( Motor_ID motorname , int desired_angle, MOTOR_SPEED Speed);*/
 void Main_Init();
 void Calibiration();
-void move_motor_To_Test(Motor_ID motorname,int desired_angle, MOTOR_SPEED Speed );

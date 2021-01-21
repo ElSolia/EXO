@@ -60,7 +60,7 @@ char move_motor_to( Motor_ID motorname , int desired_angle, MOTOR_SPEED Speed)
   if (desired_angle >Motor_Angle[motorname])
   {
    Motor_Forward(Speed, motorname);
-   Encoder_Angle_Update (motorname); // encoder name = motor name
+   //Encoder_Angle_Update (motorname); // encoder name = motor name
    return 0 ; 
    
     }
@@ -68,7 +68,7 @@ char move_motor_to( Motor_ID motorname , int desired_angle, MOTOR_SPEED Speed)
   else if( desired_angle<Motor_Angle[motorname])
   {
     Motor_Backward(Speed,motorname);
-    Encoder_Angle_Update (motorname);
+    //Encoder_Angle_Update (motorname);
     return 0;
     }
     else  {

@@ -1,31 +1,3 @@
-
-void setup() {
-  Serial.begin(115200);
-  //  Encoders initializations
-  Encoder_Init (Motor_R_Up,22,23); // Motor_R_Down
-  Encoder_Init (Motor_R_Down,26,27);
-  //Encoder_Init (Motor_L_Down,22,23);
-  //Encoder_Init (Motor_L_Up,22,23);
-  //  Motor initializations
-  Motor_Init (Motor_R_Up, 18 , 19, 4); // 18 is IN1 ,, 19 is IN2  Motor_R_Up
-  Motor_Init (Motor_R_Down, 32 , 33, 25); // 32 is is IN1 , 33 is IN2 Motor_R_Down
-  //Motor_Init (Motor_L_Down, 18 , 19, 4);
-  //Motor_Init (Motor_L_Up, 18 , 19, 4);
-  //Step_Test(HIGH_SPEED); 
-  
-}
-void loop() {
-
-  //move_motor_to(Motor_R_Up,40,HIGH_SPEED);
- //move_motor_to(Motor_R_Down,0,HIGH_SPEED);
-
-  Encoder_Angle_Update(Motor_R_Up);
-   Serial.println(Motor_Angle[Motor_R_Up]);
-   
-  // Serial.println(pulse_counter[Motor_R_Down]);
-
-}
-
 void Main_Init(){
   /*
       void Motor_Init (Motor_ID motorname, char IN1_Pinnumber , char IN2_Pinnumber , char ENA_Pinnumber)
