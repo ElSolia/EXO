@@ -1,21 +1,71 @@
 void Stand_Position (MOTOR_SPEED Speed)
 {
   
-       move_motors_to( Motor_L_Up      , 0,
-                       Motor_L_Down    , 0,
-                       Motor_R_Up      , 0,
-                       Motor_R_Down    , 0,
-                       Speed);
-  /*
+  Direction_Detect( 0, Motor_R_Down );
+  Direction_Detect( 0, Motor_R_Up );
+  Direction_Detect( 0, Motor_L_Down );
+  Direction_Detect( 0, Motor_L_Up );
+
+
+  int desired_angle1 = Backlash_eliminator( 0 ,  Motor_R_Down);
+  int desired_angle2 = Backlash_eliminator( 0 ,  Motor_R_Up);
+  int desired_angle3 = Backlash_eliminator( 0 ,  Motor_L_Down);
+  int desired_angle4 = Backlash_eliminator( 0 ,  Motor_L_Up);
+  
+  
   char a=0,b=0,c=0,d=0;
-  while(!(a && b && c && d)) // Stand
+  while((!(a && b && c && d))&& Stand_Position_Global==true) // Stand
+  /*//while(!(a)&& Stand_Position_Global==true)*/
   { 
-    a=move_motor_to (Motor_L_Up,0,Speed) ;
-    b=move_motor_to (Motor_L_Down,0,Speed) ;
-    c=move_motor_to (Motor_R_Up,0,Speed);
-    d=move_motor_to (Motor_R_Down,0,Speed);
-  }*/
+    a=move_motor_to (Motor_L_Up,desired_angle4,Speed) ;
+    b=move_motor_to (Motor_L_Down,desired_angle3,Speed) ;
+    c=move_motor_to (Motor_R_Up,desired_angle2,Speed);
+    d=move_motor_to (Motor_R_Down,desired_angle1,Speed);
+  }
+if (Stand_Position_Global==true){
+Motor_Angle[Motor_L_Up]=0;
+Motor_Angle[Motor_L_Down]=0;
+Motor_Angle[Motor_R_Up]=0;
+Motor_Angle[Motor_R_Down]=0;}
+   
+         
 }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void Sit_Position (MOTOR_SPEED Speed)
+{
+ 
+  Direction_Detect( -90, Motor_R_Down );
+  Direction_Detect( 85, Motor_R_Up );
+  Direction_Detect( -90, Motor_L_Down );
+  Direction_Detect( 85, Motor_L_Up );
+
+
+  int desired_angle1 = Backlash_eliminator( -90 ,  Motor_R_Down);
+  int desired_angle2 = Backlash_eliminator( 85 ,  Motor_R_Up);
+  int desired_angle3 = Backlash_eliminator( -90 ,  Motor_L_Down);
+  int desired_angle4 = Backlash_eliminator( 85 ,  Motor_L_Up);
+  
+  
+  char a=0,b=0,c=0,d=0;
+  while((!(a && b && c && d)) && Stand_Position_Global == false && Set_Position_Global == true) // Stand
+  /*while((!(a)) && Stand_Position_Global == false && Set_Position_Global == true)*/
+  { 
+    a=move_motor_to (Motor_L_Up,desired_angle4,Speed) ;
+    b=move_motor_to (Motor_L_Down,desired_angle3,Speed) ;
+    c=move_motor_to (Motor_R_Up,desired_angle2,Speed);
+    d=move_motor_to (Motor_R_Down,desired_angle1,Speed);
+  }
+if(Stand_Position_Global == false && Set_Position_Global == true){
+Motor_Angle[Motor_L_Up]=85;
+Motor_Angle[Motor_L_Down]=-90;
+Motor_Angle[Motor_R_Up]=85;
+Motor_Angle[Motor_R_Down]=-90;}
+  
+ }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,7 +74,7 @@ void Stand_Position (MOTOR_SPEED Speed)
 void Step_Forward (MOTOR_SPEED Speed)
 {  
 
-       move_motors_to( Motor_L_Up      , 20,
+       move_motors_to_F( Motor_L_Up      , 20,
                        Motor_L_Down    , 0 ,
                        Motor_R_Up      ,-25,
                        Motor_R_Down    ,-10,
@@ -41,7 +91,7 @@ void Step_Forward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,-10,Speed);
   }*/
 
-       move_motors_to( Motor_L_Up      , 20,
+       move_motors_to_F( Motor_L_Up      , 20,
                        Motor_L_Down    ,-20,
                        Motor_R_Up      ,-15,
                        Motor_R_Down    ,-40,
@@ -58,7 +108,7 @@ void Step_Forward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,-40,Speed);
   }*/
 
-       move_motors_to( Motor_L_Up      , 0 ,
+       move_motors_to_F( Motor_L_Up      , 0 ,
                        Motor_L_Down    ,-5 ,
                        Motor_R_Up      , 15,
                        Motor_R_Down    ,-60,
@@ -74,7 +124,7 @@ void Step_Forward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,-60,Speed);
   }*/
 
-       move_motors_to( Motor_L_Up      ,-20,
+       move_motors_to_F( Motor_L_Up      ,-20,
                        Motor_L_Down    , 0 ,
                        Motor_R_Up      , 25,
                        Motor_R_Down    ,-25,
@@ -91,7 +141,7 @@ void Step_Forward (MOTOR_SPEED Speed)
   }*/
 
 
-       move_motors_to( Motor_L_Up      ,-25,
+       move_motors_to_F( Motor_L_Up      ,-25,
                        Motor_L_Down    ,-10,
                        Motor_R_Up      , 20,
                        Motor_R_Down    , 0 ,
@@ -107,7 +157,7 @@ void Step_Forward (MOTOR_SPEED Speed)
   }*/
 
 
-       move_motors_to( Motor_L_Up      ,-15,
+       move_motors_to_F( Motor_L_Up      ,-15,
                        Motor_L_Down    ,-40,
                        Motor_R_Up      , 20,
                        Motor_R_Down    ,-20,
@@ -125,7 +175,7 @@ void Step_Forward (MOTOR_SPEED Speed)
 
 
 
-       move_motors_to( Motor_L_Up      , 15,
+       move_motors_to_F( Motor_L_Up      , 15,
                        Motor_L_Down    ,-60,
                        Motor_R_Up      , 0 ,
                        Motor_R_Down    ,-5 ,
@@ -142,7 +192,7 @@ void Step_Forward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,-5,Speed);
   }*/
 
-       move_motors_to( Motor_L_Up      , 25,
+       move_motors_to_F( Motor_L_Up      , 25,
                        Motor_L_Down    ,-25,
                        Motor_R_Up      ,-20,
                        Motor_R_Down    , 0 ,
@@ -165,7 +215,7 @@ void Step_Forward (MOTOR_SPEED Speed)
 //backstep
 void Step_Backward (MOTOR_SPEED Speed)
 {
-       move_motors_to( Motor_L_Up      , 25,
+       move_motors_to_B( Motor_L_Up      , 25,
                        Motor_L_Down    ,-25,
                        Motor_R_Up      ,-20,
                        Motor_R_Down    , 0,
@@ -180,7 +230,7 @@ void Step_Backward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,0,Speed);
   }*/
 
-       move_motors_to( Motor_L_Up      , 15,
+       move_motors_to_B( Motor_L_Up      , 15,
                        Motor_L_Down    ,-60,
                        Motor_R_Up      , 0 ,
                        Motor_R_Down    ,-5 ,
@@ -195,7 +245,7 @@ void Step_Backward (MOTOR_SPEED Speed)
     c=move_motor_to (Motor_R_Up,0,Speed);
     d=move_motor_to (Motor_R_Down,-5,Speed);
   }*/
-       move_motors_to( Motor_L_Up      ,-15,
+       move_motors_to_B( Motor_L_Up      ,-15,
                        Motor_L_Down    ,-40,
                        Motor_R_Up      , 20,
                        Motor_R_Down    ,-20,
@@ -213,7 +263,7 @@ void Step_Backward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,-20,Speed);
   }*/
 
-       move_motors_to( Motor_L_Up      ,-25,
+       move_motors_to_B( Motor_L_Up      ,-25,
                        Motor_L_Down    ,-10,
                        Motor_R_Up      ,20 ,
                        Motor_R_Down    , 0 ,
@@ -230,7 +280,7 @@ void Step_Backward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,0,Speed);
   }*/
   
-       move_motors_to( Motor_L_Up      ,-20,
+       move_motors_to_B( Motor_L_Up      ,-20,
                        Motor_L_Down    , 0 ,
                        Motor_R_Up      , 25,
                        Motor_R_Down    ,-25,
@@ -248,7 +298,7 @@ void Step_Backward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,-25,Speed);
   }*/
 
-       move_motors_to( Motor_L_Up      , 0 ,
+       move_motors_to_B( Motor_L_Up      , 0 ,
                        Motor_L_Down    ,-5 ,
                        Motor_R_Up      , 15,
                        Motor_R_Down    ,-60,
@@ -265,7 +315,7 @@ void Step_Backward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,-60,Speed);
   }*/
 
-       move_motors_to( Motor_L_Up      , 20,
+       move_motors_to_B( Motor_L_Up      , 20,
                        Motor_L_Down    ,-20,
                        Motor_R_Up      ,-15,
                        Motor_R_Down    ,-40,
@@ -282,7 +332,7 @@ void Step_Backward (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,-40,Speed);
   }*/
 
-       move_motors_to( Motor_L_Up      , 20,
+       move_motors_to_B( Motor_L_Up      , 20,
                        Motor_L_Down    ,  0,
                        Motor_R_Up      ,-25,
                        Motor_R_Down    ,-10,
@@ -303,30 +353,6 @@ void Step_Backward (MOTOR_SPEED Speed)
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-void Sit_Position (MOTOR_SPEED Speed)
-{
- 
-       move_motors_to( Motor_L_Up      , 85,
-                       Motor_L_Down    ,-90,
-                       Motor_R_Up      , 85,
-                       Motor_R_Down    ,-90,
-                       Speed);
-  
-  
-  
-  
-  /*char a=0,b=0,c=0,d=0;
-  while(!(a && b && c && d)) // Stand
-  { 
-    a=move_motor_to (Motor_L_Up,85,Speed) ;
-    b=move_motor_to (Motor_L_Down,-90,Speed) ;
-    c=move_motor_to (Motor_R_Up,85,Speed);
-    d=move_motor_to (Motor_R_Down,-90,Speed);
-  }*/
- }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

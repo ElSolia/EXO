@@ -60,7 +60,7 @@ char move_motor_to( Motor_ID motorname , int desired_angle, MOTOR_SPEED Speed)
   if (desired_angle >Motor_Angle[motorname])
   {
    Motor_Forward(Speed, motorname);
-   Encoder_Angle_Update (motorname); // encoder name = motor name
+   //Encoder_Angle_Update (motorname); // encoder name = motor name
    return 0 ; 
    
     }
@@ -68,7 +68,7 @@ char move_motor_to( Motor_ID motorname , int desired_angle, MOTOR_SPEED Speed)
   else if( desired_angle<Motor_Angle[motorname])
   {
     Motor_Backward(Speed,motorname);
-    Encoder_Angle_Update (motorname);
+    //Encoder_Angle_Update (motorname);
     return 0;
     }
     else  {
@@ -97,58 +97,59 @@ char move_motors_to( Motor_ID motorname1 , int desired_angle1,
                      Motor_ID motorname3 , int desired_angle3,
                      Motor_ID motorname4 , int desired_angle4,
                      MOTOR_SPEED Speed)
-{ 
-Direction_Detect( desired_angle1, motorname1 );
-Direction_Detect( desired_angle2, motorname2 );
-Direction_Detect( desired_angle3, motorname3 );
-Direction_Detect( desired_angle4, motorname4 );
-
-
-desired_angle1 = Backlash_eliminator( desired_angle1 ,  motorname1);
-desired_angle2 = Backlash_eliminator( desired_angle2 ,  motorname2);
-desired_angle3 = Backlash_eliminator( desired_angle3 ,  motorname3);
-desired_angle4 = Backlash_eliminator( desired_angle4 ,  motorname4);
-
-
-  char a=0,b=0,c=0,d=0;
-  while(!(a && b && c && d)) 
-  { 
-    a=move_motor_to_edited (motorname1,desired_angle1,Speed) ;
-    b=move_motor_to_edited (motorname2,desired_angle2,Speed) ;
-    c=move_motor_to_edited (motorname3,desired_angle3,Speed);
-    d=move_motor_to_edited (motorname4,desired_angle4,Speed);
-  }
-  
-}
+                                          { 
+                                          Direction_Detect( desired_angle1, motorname1 );
+                                          Direction_Detect( desired_angle2, motorname2 );
+                                          Direction_Detect( desired_angle3, motorname3 );
+                                          Direction_Detect( desired_angle4, motorname4 );
+                                          
+                                          
+                                          desired_angle1 = Backlash_eliminator( desired_angle1 ,  motorname1);
+                                          desired_angle2 = Backlash_eliminator( desired_angle2 ,  motorname2);
+                                          desired_angle3 = Backlash_eliminator( desired_angle3 ,  motorname3);
+                                          desired_angle4 = Backlash_eliminator( desired_angle4 ,  motorname4);
+                                          
+                                          
+                                            char a=0,b=0,c=0,d=0;
+                                            while(!(a && b && c && d)) 
+                                            { 
+                                              a=move_motor_to (motorname1,desired_angle1,Speed) ;
+                                              b=move_motor_to (motorname2,desired_angle2,Speed) ;
+                                              c=move_motor_to (motorname3,desired_angle3,Speed);
+                                              d=move_motor_to (motorname4,desired_angle4,Speed);
+                                            }
+                                            
+                                          }
 
 void Direction_Detect(int desired_angle,Motor_ID motorname ){
-    if (desired_angle >Motor_Angle[motorname])
-  {
-   motor_Des_Dir[motorname] = Forward;
-   
-    }
-   
-  else if( desired_angle<Motor_Angle[motorname])
-  {
-   motor_Des_Dir[motorname] = backword;
-
-    }
-    else  {
-  motor_Des_Dir[motorname] = Same;    }
-  }
+                                                  if (desired_angle >Motor_Angle[motorname])
+                                                {
+                                                 motor_Des_Dir[motorname] = Forward;
+                                                 
+                                                  }
+                                                 
+                                                else if( desired_angle<Motor_Angle[motorname])
+                                                {
+                                                 motor_Des_Dir[motorname] = backword;
+                                              
+                                                  }
+                                                  else  {
+                                                motor_Des_Dir[motorname] = Same;    }
+                                                }
 
 
   
 int Backlash_eliminator(int desired_angle , Motor_ID motorname){
-  if(motor_Des_Dir[motorname]!= motor_last_Dir[motor_last_Dir] && motor_Des_Dir[motorname]!= Same ){
-    motor_last_Dir[motor_last_Dir]=motor_Des_Dir[motorname];
-    return (desired_angle+backlash_angle);
-    }
-   else {
-        return (desired_angle);
-    } 
-  }
+                                                if(motor_Des_Dir[motorname]!= motor_last_Dir[motorname] && motor_Des_Dir[motorname]!= Same ){
+                                                  motor_last_Dir[motorname]=motor_Des_Dir[motorname];
+                                                  return (desired_angle+Backlash_angle);
+                                                  }
+                                                 else {
+                                                      return (desired_angle);
+                                                  } 
+                                                }
 
+/*
 char move_motor_to_edited( Motor_ID motorname , int desired_angle, MOTOR_SPEED Speed)
 { 
   if (motor_Des_Dir[motorname] == Forward )
@@ -170,4 +171,28 @@ char move_motor_to_edited( Motor_ID motorname , int desired_angle, MOTOR_SPEED S
     return 1;
     }
   
-}    
+}   */
+
+ void Calibiration(){
+  while(interrupt_Flags[Motor_R_Down]!=1){
+       Motor_Forward(MEDIUM_SPEED, Motor_R_Down);
+    }
+  while(interrupt_Flags[Motor_R_Up]!=1){
+       Motor_Forward(MEDIUM_SPEED, Motor_R_Down);
+    }
+  /*while(interrupt_Flags[Motor_L_Down]!=1){
+       Motor_Forward(MEDIUM_SPEED, Motor_R_Down);
+    }      
+  while(interrupt_Flags[Motor_L_Up]!=1){
+       Motor_Forward(MEDIUM_SPEED, Motor_R_Down);
+    } */ 
+  }
+
+
+  void move_motor_To_Test(Motor_ID motorname,int desired_angle, MOTOR_SPEED Speed ){
+    char a=0 ;
+    while(a!=1){
+      a= move_motor_to(  motorname ,  desired_angle,  Speed);
+      }
+    
+    }

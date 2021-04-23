@@ -2,21 +2,23 @@
 //Controlling Appliances and monitoring sensor's data over Internet using Ubidots MQTT server
 //The video is uploaded on youtube whose link is :- https://youtu.be/LvzCeBce2mU
 
-/****************************************
- * Include Libraries
- ****************************************/
+/***************************************** Include Libraries  ****************************************/
+
 #include <WiFi.h>
 #include <PubSubClient.h>
 
 #define WIFISSID "elsolia" // Put your WifiSSID here
 #define PASSWORD "b4m1sh13abdo" // Put your wifi password here
 #define TOKEN "BBFF-3EtINY1smPeyHUg6SMmgKAC4rfGGuX" // Put your Ubidots' TOKEN
-#define MQTT_CLIENT_NAME "soli281998" // MQTT client Name, please enter your own 8-12 alphanumeric character ASCII string; 
+#define MQTT_CLIENT_NAME "A77eEeEhhh" // MQTT client Name, please enter your own 8-12 alphanumeric character ASCII string; 
                                            //it should be a random and unique ascii string and different from all other devices
 
-/****************************************
- * Define Constants
- ****************************************/
+
+
+
+
+/***************************************** Define Constants ****************************************/
+
 //#define CHILD_EX_SUBSCRIBE "childex" // Assing the variable label 
 #define SPEED_SUBSCRIBE    "speed" // Assing the variable label
 #define STAND_P_SUBSCRIBE  "stand-position" // Assing the variable label
@@ -32,8 +34,11 @@
 
  
 
-#define DEVICE_LABEL "super_exo" // Assig the device label
+#define DEVICE_LABEL "super_exo1" // Assig the device label
 
+
+
+                    /************************ array to store address of topics  ***************************/
 
 char mqttBroker[]  = "industrial.api.ubidots.com";
 char payload[100];
@@ -51,16 +56,20 @@ char topicSubscribe10[100];
 char topicSubscribe11[100];
 
 
-// Space to store values to send
-//char str_sensor[10];
 
-/****************************************
- * Auxiliar Functions
- ****************************************/
+
+
+      /**************************** Auxiliar Functions *****************************/
+
 WiFiClient ubidots;
 PubSubClient client(ubidots);
 
 
+
+
+
+
+        /***************************** wifi Functions **************************/
 
 void reconnect() {
   // Loop until we're reconnected
@@ -99,18 +108,41 @@ void callback(char* topic, byte* payload, unsigned int length) {
   String message(p);
   Serial.write(payload, length);
   Serial.println();
-  //Serial.print(" the message rec = ");
-  //Serial.println(message);
+  Serial.print(" the message rec = ");
+  Serial.println(message);
+
+    //added
+   int x = message.toInt();   // verified
+   if(x<0){
+    x+=200;
+                /*
+                 * U_L --> [-35,-10]-->[165,190]
+                 * L_L --> -1 --> 199
+                 * U_R --> [-34,-9] -->[166,191]
+                 * L_R --> -2 -->198*/
+                
+    }
+  Serial2.write(x);
+  Serial.print(" the message trans = ");
+  Serial.println(x);
+  delay(10);
+  
 }
 
-/****************************************
- * Main Functions
- ****************************************/
+
+
+
+
+/***************************************** Main Functions ****************************************/
+
+/***************  Void Setup  ***************/
+
 void setup() {
   Serial.begin(115200);
+  Serial2.begin(115200, SERIAL_8N1, 16, 17);
+
   WiFi.begin(WIFISSID, PASSWORD);
-  // Assign the pin as INPUT 
-//  pinMode(relay, OUTPUT);
+
 
   Serial.println();
   Serial.print("Wait for WiFi...");
@@ -155,6 +187,11 @@ void setup() {
 
 }
 
+
+
+
+/***************  Void Loop  ***************/
+
 void loop() {
   if (!client.connected()) {
   //client.subscribe(topicSubscribe1);
@@ -172,42 +209,6 @@ void loop() {
     reconnect();
   }
 
- //sprintf(topic, "%s%s", "/v1.6/devices/", DEVICE_LABEL);
- //sprintf(payload, "%s", ""); // Cleans the payload
- //sprintf(payload, "{\"%s\":", VARIABLE_LABEL); // Adds the variable label
-
-
-
-
-
-    /*sprintf(topicToSubscribe_variable_1, "%s", ""); // Cleans the content of the char
-    sprintf(topicToSubscribe_variable_1, "%s%s", "/v1.6/devices/", DEVICE_LABEL);
-    sprintf(topicToSubscribe_variable_1, "%s/%s/lv", topicToSubscribe_variable_1, VARIABLE_LABEL_SUB_1);
-    Serial.println("subscribing to topic:");
-    Serial.println(topicToSubscribe_variable_1);
-    client.subscribe(topicToSubscribe_variable_1);*/
-                                                                   /*#define CHILD_EX_SUBSCRIBE "childex" // Assing the variable label 
-                                                                  #define SPEED_SUBSCRIBE "speed" // Assing the variable label
-                                                                  #define STAND_P_SUBSCRIBE "stand-position" // Assing the variable label
-                                                                  #define SET_P_SUBSCRIBE "set-position" // Assing the variable label
-                                                                  #define STEP_B_SUBSCRIBE "step-backward" // Assing the variable label
-                                                                  #define STEP_F_SUBSCRIBE "step-forward" // Assing the variable label
-                                                                  #define MOVE_S_SUBSCRIBE "move-separate" // Assing the variable label
-                                                                  #define LOWER_L_SUBSCRIBE "lower-left" // Assing the variable label
-                                                                  #define LOWER_R_SUBSCRIBE "lower-right" // Assing the variable label
-                                                                  #define UPPER_L_SUBSCRIBE "upper-left" // Assing the variable label
-                                                                  #define UPPER_R_SUBSCRIBE "upper_right" // Assing the variable label*/
-    
-  /*float sensor = hallRead();
-  Serial.print("Value of Sensor is:- ");
-  Serial.println(sensor);
-  
-  /* 4 is mininum width, 2 is precision; float value is copied onto str_sensor
-  dtostrf(sensor, 4, 2, str_sensor);
-  
-  sprintf(payload, "%s {\"value\": %s}}", payload, str_sensor); // Adds the value
-  Serial.println("Publishing data to Ubidots Cloud");
-  client.publish(topic, payload);*/
   client.loop();
   delay(100);
 }
