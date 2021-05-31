@@ -39,15 +39,15 @@ void Sit_Position (MOTOR_SPEED Speed)
 {
  
   Direction_Detect( -90, Motor_R_Down );
-  Direction_Detect( 85, Motor_R_Up );
+  Direction_Detect( 70, Motor_R_Up );
   Direction_Detect( -90, Motor_L_Down );
-  Direction_Detect( 85, Motor_L_Up );
+  Direction_Detect( 70, Motor_L_Up );
 
 
   int desired_angle1 = Backlash_eliminator( -90 ,  Motor_R_Down);
-  int desired_angle2 = Backlash_eliminator( 85 ,  Motor_R_Up);
+  int desired_angle2 = Backlash_eliminator( 70 ,  Motor_R_Up);
   int desired_angle3 = Backlash_eliminator( -90 ,  Motor_L_Down);
-  int desired_angle4 = Backlash_eliminator( 85 ,  Motor_L_Up);
+  int desired_angle4 = Backlash_eliminator( 70 ,  Motor_L_Up);
   
   
   char a=0,b=0,c=0,d=0;
@@ -60,9 +60,9 @@ void Sit_Position (MOTOR_SPEED Speed)
     d=move_motor_to (Motor_R_Down,desired_angle1,Speed);
   }
 if(Stand_Position_Global == false && Set_Position_Global == true){
-Motor_Angle[Motor_L_Up]=85;
+Motor_Angle[Motor_L_Up]=70;
 Motor_Angle[Motor_L_Down]=-90;
-Motor_Angle[Motor_R_Up]=85;
+Motor_Angle[Motor_R_Up]=70;
 Motor_Angle[Motor_R_Down]=-90;}
   
  }

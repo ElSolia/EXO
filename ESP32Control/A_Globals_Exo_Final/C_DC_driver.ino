@@ -294,15 +294,18 @@ char check_limits(Motor_ID motorname , int desired_angle) {
 
 /*****************  Calibiration Fn   *****************/
 //called one time at wake up only
+
 void Motor_R_Down_Calibiration() {
   interrupt_Flags[Motor_R_Down]=0;
+  
   while (interrupt_Flags[Motor_R_Down] != 1) { //Motor_R_Down
-    Motor_Forward(HIGH_SPEED, Motor_R_Down);
+    Motor_Backward(MEDIUM_SPEED, Motor_R_Down);
     Serial.print("Motor_R_Down angle = ");
     Serial.println(Motor_Angle[Motor_R_Down]);
   }
   //Motor_Backward(LOW_SPEED, Motor_R_Down);  
-  move_motor_to_Indiv(Motor_R_Down, -5 , HIGH_SPEED);
+          Move_Separate_Global = true;
+  move_motor_to_Indiv(Motor_R_Down, -5 , MEDIUM_SPEED);
   Motor_Brake(Motor_R_Down);
 } 
 
@@ -311,12 +314,13 @@ void Motor_L_Down_Calibiration(){
      interrupt_Flags[Motor_L_Down]=0;
     while (interrupt_Flags[Motor_L_Down] != 1) { // Motor_L_Down
     //interrupt_Flags[Motor_L_Down]=0;  
-    Motor_Forward(HIGH_SPEED, Motor_L_Down);
+    Motor_Forward(MEDIUM_SPEED, Motor_L_Down);
     Serial.print("Motor_L_Down angle = ");
     Serial.println(Motor_Angle[Motor_L_Down]);
   }
     //Motor_Backward(HIGH_SPEED, Motor_L_Down);
-  move_motor_to_Indiv(Motor_L_Down, -5 , HIGH_SPEED);
+        Move_Separate_Global = true;
+  move_motor_to_Indiv(Motor_L_Down, -5 , MEDIUM_SPEED);
   Motor_Brake(Motor_L_Down);
   }
 
@@ -325,12 +329,13 @@ void Motor_L_Up_Calibiration(){
       interrupt_Flags[Motor_L_Up]=0;
   while (interrupt_Flags[Motor_L_Up] != 1) {  //Motor_L_Up
         //interrupt_Flags[Motor_L_Up]=0;
-    Motor_Forward(HIGH_SPEED, Motor_L_Up);
-    //Serial.print("Motor_L_Up angle = ");
-    //Serial.println(Motor_Angle[Motor_L_Up]);
+    Motor_Forward(MEDIUM_SPEED, Motor_L_Up);
+    Serial.print("Motor_L_Up angle = ");
+    Serial.println(Motor_Angle[Motor_L_Up]);
   }
       //Motor_Backward(HIGH_SPEED, Motor_L_Up);
-  move_motor_to_Indiv(Motor_L_Up, 0 , HIGH_SPEED);
+              Move_Separate_Global = true;
+  move_motor_to_Indiv(Motor_L_Up, 0 , MEDIUM_SPEED);
   Motor_Brake(Motor_L_Up);
   //delay(5000); 
   }
@@ -340,12 +345,13 @@ void Motor_R_Up_Calibiration(){
     interrupt_Flags[Motor_R_Up]=0;
  while (interrupt_Flags[Motor_R_Up] != 1) { //Motor_R_Up
     //interrupt_Flags[Motor_R_Up]=0;
-    Motor_Forward(HIGH_SPEED, Motor_R_Up);
-   // Serial.print("Motor_R_Up angle = ");
-    //Serial.println(Motor_Angle[Motor_R_Up]);
+    Motor_Backward(MEDIUM_SPEED, Motor_R_Up);
+    Serial.print("Motor_R_Up angle = ");
+    Serial.println(Motor_Angle[Motor_R_Up]);
   }
           //Motor_Backward(HIGH_SPEED, Motor_R_Up);
-  move_motor_to_Indiv(Motor_R_Up, 0 , HIGH_SPEED);
+                  Move_Separate_Global = true;
+  move_motor_to_Indiv(Motor_R_Up, 0 , MEDIUM_SPEED);
   Motor_Brake(Motor_R_Up);  
   }
   

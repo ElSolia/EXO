@@ -1,8 +1,10 @@
+//char l=0;
+
 void TC0_Handler()
 {
   char dummy = REG_TC0_SR0; // vital - reading this clears some flag
   // otherwise you get infinite interrupts
-
+//l=(!l);
   if (Serial1.available() > 0) {
     int rec_Byte = Serial1.read(); //can't read the negative number
     //Serial.print("the value recieved = ");
@@ -78,7 +80,7 @@ void setup() {
   /********* Serial Monitor **********/
   Serial1.begin(115200);
   Serial.begin(115200);
-  Serial1.setTimeout(10); // set the time that the function called paraseInt will wait to the end of the int
+  //Serial1.setTimeout(10); // set the time that the function called paraseInt will wait to the end of the int
 
 
 
@@ -88,58 +90,80 @@ void setup() {
       void Encoder_Init (Motor_ID encodername,char pinnumber1,char pinnumber2) Pin1->clk , pin2->Dt
       void Limit_Sw_Init ( Motor_ID limitname ,char pinnumber)
   */
-    noInterrupts();
+  //noInterrupts();
   Motor_Init   (  Motor_R_Down  , Motor_R_Down_IN1  , Motor_R_Down_IN2 , Motor_R_Down_ENA);
   Encoder_Init (  Motor_R_Down  , Motor_R_Down_CLK  , Motor_R_Down_DT   );
   Limit_Sw_Init(  Motor_R_Down  ,  Motor_R_Down_LIMITSWITCH    );
 
-
+ // delay(50);
   Motor_Init   (  Motor_R_Up    , Motor_R_Up_IN1  , Motor_R_Up_IN2 , Motor_R_Up_ENA);
   Encoder_Init (  Motor_R_Up    , Motor_R_Up_CLK  , Motor_R_Up_DT );
   Limit_Sw_Init(  Motor_R_Up    , Motor_R_Up_LIMITSWITCH );
-
+//  delay(50);
 
 
   Motor_Init   (  Motor_L_Down  , Motor_L_Down_IN1   , Motor_L_Down_IN2  , Motor_L_Down_ENA );
   Encoder_Init (  Motor_L_Down  , Motor_L_Down_CLK   , Motor_L_Down_DT);
   Limit_Sw_Init(  Motor_L_Down  , Motor_L_Down_LIMITSWITCH  );
 
+//  delay(50);
 
   Motor_Init   (  Motor_L_Up    , Motor_L_Up_IN1  , Motor_L_Up_IN2 , Motor_L_Up_ENA);
   Encoder_Init (  Motor_L_Up    , Motor_L_Up_CLK  , Motor_L_Up_DT);
   Limit_Sw_Init(  Motor_L_Up    , Motor_L_Up_LIMITSWITCH );
 
-
+pinMode(13,OUTPUT);
+  //delay(50);
 
 
 
 }
 
-
-char x = 0 ; 
+char x = 0 ;
 void loop() {
-   while (x==0){
+  while (x == 0) {
+    //delay(50);
+   // interrupts();
+    delay(50);
+        //Motor_Backward(MEDIUM_SPEED, Motor_R_Up);
+          //  delay(5000);
 
-    interrupts();
-    
-    Motor_R_Down_Calibiration();
+Move_Separate_Global=true;
+        Motor_L_Down_Calibiration();
     delay(1000);
-    detachInterrupt(digitalPinToInterrupt(Motor_R_Down_LIMITSWITCH));
-    Motor_L_Down_Calibiration();
-    delay(1000);
-    detachInterrupt(digitalPinToInterrupt(Motor_L_Down_LIMITSWITCH));
+        Move_Separate_Global=true;
     Motor_L_Up_Calibiration();
     delay(1000);
-    detachInterrupt(digitalPinToInterrupt(Motor_L_Up_LIMITSWITCH));    
-    Motor_R_Up_Calibiration();
+    Motor_R_Down_Calibiration();
+    //detachInterrupt(digitalPinToInterrupt(Motor_R_Down_LIMITSWITCH));
     delay(1000);
-    detachInterrupt(digitalPinToInterrupt(Motor_R_Up_LIMITSWITCH));    
+
+Move_Separate_Global=true;
+
+Move_Separate_Global=true;
+                Motor_R_Up_Calibiration();
+    Serial.print("Motor_R_Up angle = ");
+    Serial.println(Motor_Angle[Motor_R_Up]);
+    delay(1000);
+
+    
+    //detachInterrupt(digitalPinToInterrupt(Motor_L_Down_LIMITSWITCH));
+
+
+    //detachInterrupt(digitalPinToInterrupt(Motor_L_Up_LIMITSWITCH));
+
+    //detachInterrupt(digitalPinToInterrupt(Motor_R_Up_LIMITSWITCH));
     Move_Separate_Global = false;
-       ++x;
-     }
+    ++x;
+    //SPEED_Global=HIGH_SPEED;
+    //Step_Forward_Global=true;
+    delay(2000);
+  }
 
-
-  /* Serial.print("the speed = ");
+  
+  //digitalWrite(13,l);
+  //Serial.print("the speed = ");
+   /*Serial.print("the speed = ");
     Serial.println(SPEED_Global);
 
     Serial.print("the stand postition = ");

@@ -52,7 +52,7 @@
 #define IN1 0 // First pin for motor driver
 #define IN2 1 // Second pin for motor driver
 #define ENA 2 // Enable pin for motor driver
-#define Backlash_angle 5
+#define Backlash_angle 3
 
 
 /************************** Encoder Constants  ***************************/
@@ -179,7 +179,7 @@ void Timer_Init(){
   REG_PIOB_ABSR= 1<<25; // select peripheral B
   REG_TC0_WPMR=0x54494D00; // enable write to registers
   REG_TC0_CMR0=0b00000000000010011100010000000000; // set channel mode register (see datasheet)
-  REG_TC0_RC0=1000000; // counter period 0.01 sec
+  REG_TC0_RC0=10000000; // counter period 0.1 sec
   REG_TC0_RA0=30000000;  // PWM value
   REG_TC0_CCR0=0b101;    // start counter
   REG_TC0_IER0=0b00010000; // enable interrupt on counter=rc
